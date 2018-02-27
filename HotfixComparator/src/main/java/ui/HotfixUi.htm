@@ -1,0 +1,62 @@
+<!-- Author : Kakul--> 
+
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <title>Bootstrap Example</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <script>
+         function myFunction() {
+         var path1 = document.getElementById('path1').value;
+         path1= path1.replace(/\\/g,"*");
+         var path2= document.getElementById('path2').value;
+         path2= path2.replace(/\\/g,"*");
+         
+         var URL= "http://localhost:8080/"+path1+"/"+path2+"/";
+          var xhttp = new XMLHttpRequest();
+          xhttp.open("GET", URL, true);
+          //xhttp.setRequestHeader("Content-type", "application/String");
+             xhttp.send();
+             //var response = JSON.parse(xhttp.responseText);
+         
+         
+         // rest call with param path1 and path 2 ; 
+         var result = path1 + " " +path2 +  " The HFix in path1 and not in path 2 are \n HFix-1234...\n..... The HFix present in both env are \n HFix-1245, HFix-12345";
+         //var htmlObj= $(result);
+             document.getElementById("demo").innerHTML = result ;
+         }
+      </script>
+   </head>
+   <body>
+      <div class="jumbotron text-center">
+         <h1>HFix Comparator</h1>
+         <p>Upload the HFix inventory .xls files !!</p>
+      </div>
+      <div class="container">
+         <div class="row">
+            <div class="col-sm-6">
+               <div class="center-block" style="margin-left:25%">
+                  <h3>Inventory 1</h3>
+                  <input type="file" id="path1" ><br>
+               </div>
+            </div>
+            <div class="col-sm-6" >
+               <div class="center-block" style="margin-left:25%">
+                  <h3>Inventory 2</h3>
+                  <input type="file" id="path2" ><br>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div >
+      <button type="Submit" class="btn btn-success"  onclick="myFunction()">Compare !!</button>
+      <div >
+      <div id="demo" style="white-space: pre-line">
+      </div>
+   </body>
+</html>
