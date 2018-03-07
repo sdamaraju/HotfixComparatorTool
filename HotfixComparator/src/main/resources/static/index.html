@@ -24,12 +24,14 @@ ItemJSON =
   "path1":path1,
   "path2":path2 
 };
+alert(path1);
+alert(path2);
 //console.log(JSON.stringify(ItemJSON));
 var ItemJSONFinal=JSON.stringify(ItemJSON);
 //var URL= "http://localhost:8080/jsonitem?var="+ItemJSON;
 
 jQuery.ajax({
-            url: "http://localhost:7008/compareHotfixes",
+            url: "http://localhost:8080/compareHotfixes",
             type: "POST",
             data: ItemJSONFinal,
           
