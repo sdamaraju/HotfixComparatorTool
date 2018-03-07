@@ -12,10 +12,14 @@
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
       <script>
          function myFunction() {
-         var path1 = document.getElementById('path1').value;
+         var path1 = document.getElementById("path1").value;
+         alert(path1);
          path1= path1.replace(/\\/g,"*");
+         alert(path1);
          var path2= document.getElementById('path2').value;
+         alert(path2);
          path2= path2.replace(/\\/g,"*");
+         alert(path2);
          
          var URL= "http://localhost:8080/"+path1+"/"+path2+"/";
           var xhttp = new XMLHttpRequest();
