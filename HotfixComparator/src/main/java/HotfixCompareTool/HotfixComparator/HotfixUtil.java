@@ -26,6 +26,7 @@ public class HotfixUtil {
 		BufferedReader br = new BufferedReader(fr);
 		TreeSet<Hotfix> hotfixSet = new TreeSet<Hotfix>(new HotfixComparator());
 		String line = br.readLine();
+		line=br.readLine();// to omit the header.
 		while(line !=null){
 			String[] strArray = line.split(",");
 			Hotfix newHotfixObj = new Hotfix(strArray[0],strArray[1],strArray[3],strArray[4]);

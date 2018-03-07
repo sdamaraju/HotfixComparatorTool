@@ -50,7 +50,8 @@ public class HotfixComparatorApplication {
 	}
 	
 	@RequestMapping(value = "/compareHotfixes", method = RequestMethod.POST)
-	public @ResponseBody String createEmployee(@RequestBody Paths paths) throws IOException {
+	public @ResponseBody String compareHotfix(@RequestBody Paths paths) throws IOException {
+		
 		String p1= (paths.getPath1());
 		String p2= (paths.getPath2());
 		File env1 = new File(p1);
