@@ -52,10 +52,12 @@ public class ResultGenerator {
 					 while(iter2.hasNext()){
 						HotfixInEnv2NotEnv1.add(iter2.next());
 					 }
+					 break;// Once all the objects are added we can break out of while loop.
 				 }else{
 					 while(iter1.hasNext()){
 						 HotfixInEnv1NotEnv2.add(iter1.next());
 					 }
+					 break;// Once all the objects are added we can break out of while loop.
 				 }
 				 
 			 }else if(a>b){
@@ -66,7 +68,7 @@ public class ResultGenerator {
 					 HotfixInEnv1NotEnv2.add(obj1);
 					 while(iter1.hasNext()){
 						 HotfixInEnv1NotEnv2.add(iter1.next());
-					 }
+					 }break;//  Once all the objects are added we can break out of while loop.
 				 }
 			 }if(b>a){
 				 HotfixInEnv1NotEnv2.add(obj1);
@@ -76,32 +78,32 @@ public class ResultGenerator {
 					 HotfixInEnv2NotEnv1.add(obj2);
 					 while(iter2.hasNext()){
 						 HotfixInEnv2NotEnv1.add(iter2.next());
-					 } 
+					 }break; // Once all the objects are added we can break out of while loop.
 				 }
 			 }
 		}
 		
 		StringBuffer finalbuf = new StringBuffer();
 		// result generator
-		finalbuf.append("Hotfixes in common in ENV-1 and ENV-2 \n");
+		finalbuf.append("=============================Hotfixes in common in ENV-1 and ENV-2========================================== \n");
 		//System.out.println("Hotfixes in common in ENV-1 and ENV-2");
 		for(int i=0;i<uniqueHotfixList.size();i++){
 			finalbuf.append(i+1 + ") " +uniqueHotfixList.get(i)+"\n");
 		//	System.out.println(i+1 + ") " +uniqueHotfixList.get(i));
 		}
 		//System.out.println("Hotfixes in Env-1 and not in Env-2");
-		finalbuf.append("Hotfixes in Env-1 and not in Env-2 \n");
+		finalbuf.append("=============================Hotfixes in Env-1 and not in Env-2============================= \n");
 		for(int i=0;i<HotfixInEnv1NotEnv2.size();i++){
 			finalbuf.append(i+1 + ") " +HotfixInEnv1NotEnv2.get(i)+"\n");
 		//	System.out.println(i+1 + ") " +HotfixInEnv1NotEnv2.get(i));
 		}
-		finalbuf.append("Hotfixes in Env-2 and not in Env-1\n");
+		finalbuf.append("=============================Hotfixes in Env-2 and not in Env-1=============================\n");
 		//System.out.println("Hotfixes in Env-2 and not in Env-1");
 		for(int i=0;i<HotfixInEnv2NotEnv1.size();i++){
 			finalbuf.append(i+1 + ") " +HotfixInEnv2NotEnv1.get(i)+"\n");
 			//System.out.println(i+1 + ") " +HotfixInEnv2NotEnv1.get(i));
 		}
-		finalbuf.append("Hotfixes Common in Env-1 and Env-2 but have differences in Installation Status\n");
+		finalbuf.append("=============================Hotfixes Common in Env-1 and Env-2 but have differences in Installation Status=============================\n");
 		//System.out.println("Hotfixes in Env-2 and not in Env-1");
 		for(int i=0;i<HotfixInCommonButHavingDifferentInstallationStatus.size();i++){
 			if(i%2==0){

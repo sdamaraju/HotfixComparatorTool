@@ -33,7 +33,7 @@ public class HotfixUtil {
 		String line = br.readLine();
 		line=br.readLine();// to omit the header.
 		while(line !=null){
-			String[] strArray = line.split(",");
+			String[] strArray = line.split(",",-1);
 			int indices [] = evaluateTheIndices(strArray,temp);
 			Hotfix newHotfixObj = null;
 			if(indices[5]>0){ // indices[5] has the descriptionDelta, (if "," exists in Hotfix-description), handling that case here.
