@@ -17,6 +17,7 @@ public class ResultGenerator {
 		List uniqueHotfixList = new ArrayList<Hotfix>();
 		ArrayList<Hotfix> HotfixInEnv1NotEnv2 = new ArrayList<Hotfix>();
 		ArrayList<Hotfix> HotfixInEnv2NotEnv1 = new ArrayList<Hotfix>();
+		ArrayList<Hotfix> HotfixInCommonButHavingDifferentInstallationStatus = new ArrayList<Hotfix>();
 		Hotfix obj1 = null;
 		Hotfix obj2 = null;
 		TreeSet HotfixSet1 = (TreeSet) listOfHotfixSet.get(0);
@@ -34,7 +35,12 @@ public class ResultGenerator {
 			 int b = obj2.getHotfixPK();
 			 //System.out.println(b);
 			 if(a==b){
-				 uniqueHotfixList.add(obj1);
+				 if(obj1.equals(obj2)){
+					 uniqueHotfixList.add(obj1);
+				 }else{
+					 HotfixInCommonButHavingDifferentInstallationStatus.add(obj1);
+					 HotfixInCommonButHavingDifferentInstallationStatus.add(obj2);
+				 }
 				 if(iter1.hasNext()&&iter2.hasNext()){
 					 obj1 = iter1.next();
 					 obj2 = iter2.next();
@@ -93,6 +99,16 @@ public class ResultGenerator {
 		//System.out.println("Hotfixes in Env-2 and not in Env-1");
 		for(int i=0;i<HotfixInEnv2NotEnv1.size();i++){
 			finalbuf.append(i+1 + ") " +HotfixInEnv2NotEnv1.get(i)+"\n");
+			//System.out.println(i+1 + ") " +HotfixInEnv2NotEnv1.get(i));
+		}
+		finalbuf.append("Hotfixes Common in Env-1 and Env-2 but have differences in Installation Status\n");
+		//System.out.println("Hotfixes in Env-2 and not in Env-1");
+		for(int i=0;i<HotfixInCommonButHavingDifferentInstallationStatus.size();i++){
+			if(i%2==0){
+				finalbuf.append(i+1 + ") In ENV1 : " +HotfixInCommonButHavingDifferentInstallationStatus.get(i)+"\n");
+			}else{
+				finalbuf.append(i+1 + ") In ENV2 : " +HotfixInCommonButHavingDifferentInstallationStatus.get(i)+"\n");
+			}
 			//System.out.println(i+1 + ") " +HotfixInEnv2NotEnv1.get(i));
 		}
 		System.out.println(finalbuf.toString());

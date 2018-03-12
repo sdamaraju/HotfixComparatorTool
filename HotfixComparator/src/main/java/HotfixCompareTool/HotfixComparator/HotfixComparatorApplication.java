@@ -33,8 +33,8 @@ public class HotfixComparatorApplication {
 		SpringApplication.run(HotfixComparatorApplication.class, args);
 	}
 		
-	@GetMapping("/{path1}/{path2}") // deprecated.
-	public String runCompare(@PathVariable("path1") String path1,@PathVariable("path2") String path2) throws IOException{
+	@GetMapping("/{path1}/{path2}/{prpcVersion}") // deprecated.
+	public String runCompare(@PathVariable("path1") String path1,@PathVariable("path2") String path2,@PathVariable("prpcVersion") String prpcVersion) throws IOException{
 		String p1 = path1.replace("*", "\\");
 		String p2 = path2.replace("*", "\\"); // hardcoded. replace with json code tomorrow.
 		System.out.println(p1);
@@ -43,7 +43,7 @@ public class HotfixComparatorApplication {
 		File env1 = new File(p1);
 		File env2 = new File(p2);
 		ArrayList listOfHotfixSet = new ArrayList(2); // dynamic value for number of hotfixfiles that can be compared in Beta version, as of now hard-coding it to 2.
-		listOfHotfixSet = HotfixUtil.createNecessaryHotfixObjects(env1,env2,listOfHotfixSet);
+		listOfHotfixSet = HotfixUtil.createNecessaryHotfixObjects(env1,env2,listOfHotfixSet,prpcVersion);
 		ResultGenerator rgen = new ResultGenerator();
 		String str = rgen.compareHotfixesAndGenerateResults(listOfHotfixSet);
 		return str;
@@ -54,10 +54,11 @@ public class HotfixComparatorApplication {
 		
 		String p1= (paths.getPath1());
 		String p2= (paths.getPath2());
+		String prpcVersion = paths.getVersion();
 		File env1 = new File(p1);
 		File env2 = new File(p2);
 		ArrayList listOfHotfixSet = new ArrayList(2); // dynamic value for number of hotfixfiles that can be compared in Beta version, as of now hard-coding it to 2.
-		listOfHotfixSet = HotfixUtil.createNecessaryHotfixObjects(env1,env2,listOfHotfixSet);
+		listOfHotfixSet = HotfixUtil.createNecessaryHotfixObjects(env1,env2,listOfHotfixSet,prpcVersion);
 		ResultGenerator rgen = new ResultGenerator();
 		String str = rgen.compareHotfixesAndGenerateResults(listOfHotfixSet);
 		return str;
