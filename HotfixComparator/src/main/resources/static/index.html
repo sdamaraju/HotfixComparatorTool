@@ -27,24 +27,33 @@
         function myFunction() {
         	var errorString = "";
             var path1 = document.getElementById('path1').value;
-            if (path1.indexOf("fakepath") != -1 || path1=="") {
+            if (path1=="") {
+            	errorString = "File for Inventory is not selected";
+            }
+            if(path1.indexOf("fakepath") != -1){
+            	errorString = "FakePath Browser issue encountered, we shall fix this is in version-2.0, as a work-around please use the text-field below to provide the absolute-file-path";	
             	path1 = document.getElementById('pathText1').value;
-            	if(path1 == ""){
-            		errorString = "FakePath Browser issue encountered, we shall fix this is version-2, as a work-around please use the text-field below to provide the absolute-file address";
-            	}
             }
-            if(errorString == "" && path1.indexOf(".csv") == -1) {
-                errorString = "Please enter valid .CSV file for Inventory 1 ";
+            if(path1==""){
+            	path1 = document.getElementById('pathText1').value;
             }
+            if(path1!="" && path1.indexOf("fakepath") == -1 ){
+            		errorString="";
+            }
+            
             var path2 = document.getElementById('path2').value;
-            if (path2.indexOf("fakepath") != -1 || path2=="") {
-           		path2 = document.getElementById('pathText2').value;  
-                   if(path2 == ""){
-               		errorString = "FakePath Browser issue encountered, we shall fix this is version-2, as a work-around please use the text-field below to provide the absolute-file address";
-               	}
+            if (path2=="") {
+            	errorString = "File for Inventory is not selected";
             }
-            if(errorString == "" && path2.indexOf(".csv") == -1) {
-                errorString = "Please enter valid .CSV file for Inventory 2 ";
+            if(path2.indexOf("fakepath") != -1){
+            	errorString = "FakePath Browser issue encountered, we shall fix this is in version-2.0, as a work-around please use the text-field below to provide the absolute-file-path";	
+            	path2 = document.getElementById('pathText2').value;
+            }
+            if(path2==""){
+            	path2 = document.getElementById('pathText2').value;
+            }
+            if(path2!="" && path2.indexOf("fakepath") == -1 ){
+            		errorString="";
             }
             var prpcVersion = document.getElementById('version').value;
 
@@ -59,12 +68,9 @@
                     "path2": path2,
                     "version": prpcVersion
                 };
-                //console.log(JSON.stringify(ItemJSON));
                 var ItemJSONFinal = JSON.stringify(ItemJSON);
-                //var URL= "http://localhost:8080/jsonitem?var="+ItemJSON;
-
                 jQuery.ajax({
-                    url: "http://localhost:8080/compareHotfixes",
+                    url: "http://localhost:7008/compareHotfixes",
                     type: "POST",
                     data: ItemJSONFinal,
 
@@ -107,7 +113,7 @@
                      <h3 style="color:white" >Inventory 1*</h3>
                      <input type="file"  id="path1" accept=".csv" required><br>
                    <!--  <p style="color:White; font-style: bold"> If browser doesn't support file uploads due to security reasons ("Fakepath-Masking "), please provide the absolute file path in the corresponding text fields below.</p> -->
-                     <input type="text"  size=50 id="pathText1"><br>
+                     <input type="text" placeholder="Enter the Absolute-File-Path if needed for Inventory-1"  size=50 id="pathText1"><br>
                   </div>
             </div>
             <div class="col-sm-4" >
@@ -116,7 +122,7 @@
                   <form>
                      <input type="file"  id="path2" accept=".csv" required><br>
                      <!--  <p style="color:White; font-style: bold"> If browser doesn't support file uploads due to security reasons ("Fakepath-Masking "), please provide the absolute file path in the corresponding text fields below. </p>-->
-                     <input type="text" size=50 id="pathText2"><br>
+                     <input type="text" size=50 placeholder="Enter the Absolute-File-Path if needed for Inventory-2" id="pathText2"><br>
                   </form>
                </div>
             </div>
