@@ -1,162 +1,152 @@
-<!-- Author : Kakul-->
+
+<!-- Author: KAKUL -->
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <title>Hotfix Comparator</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="dropjone.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script>
-        function errorCSV(errorString) {
-            alert(errorString);
-            return 0;
-        }
-        function errorPrpc() {
-            alert("Please select the PRPC version from the drop-down");
-            return 0;
-        }
+  <title>Hotfix Comparator</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-        function myFunction() {
-        	var errorString1 = "";
-            var path1 = document.getElementById('path1').value;
-            if (path1=="") {
-            	errorString1 = "File for Inventory is not selected";
-            }
-            if(path1.indexOf("fakepath") != -1){
-            	errorString1 = "FakePath Browser issue encountered, we shall fix this is in version-2.0, as a work-around please use the text-field below to provide the absolute-file-path";	
-            	path1 = document.getElementById('pathText1').value;
-            }
-            if(path1==""){
-            	path1 = document.getElementById('pathText1').value;
-            }
-            if(path1!="" && path1.indexOf("fakepath") == -1 ){
-            		errorString1="";
-            }
+  
+<script>
+   
+function Error(errorString){
+       alert("Please check the following => "+errorString);
+       return 0;
+     }
+
+function myFunction() {
+
+var inventoryFile1 = document.querySelector('#path1');
+var errorString="";
+if ((inventoryFile1.value=="")||inventoryFile1.files[0].name.indexOf(".csv")== -1) {
+errorString=errorString+" -Inventory 1 ";
+}
+
+var inventoryFile2 = document.querySelector('#path2');
+
+if ((inventoryFile2.value=="")||inventoryFile2.files[0].name.indexOf(".csv")==-1 ) {
+  errorString=errorString+" -Inventory 2 ";
+}
+
+var errorVersion = "";
+var prpcVersion= document.getElementById('version').value;
+if (prpcVersion=="" ) {
+	errorString=errorString +"- PRPC version ";
+}
+
+
+if(errorString!="")
+{
+  Error(errorString);
+}
+else{
+     
+  var reader1 = new FileReader();
+  reader1.readAsText(inventoryFile1.files[0]);
+  var reader2 = new FileReader();  
+  reader2.readAsText(inventoryFile2.files[0]);
+
+  reader1.onload=function(e){
+	  
+	reader2.onload=function(e){  
+	var ItemJSON;
+	ItemJSON = 
+	{ 
+ 	 "fileData1":"",
+ 	 "fileData2":"", 
+ 	 "version":prpcVersion
+	};
+	ItemJSON.fileData1 = reader1.result;
+    ItemJSON.fileData2 = reader2.result;
+    
+
+var ItemJSONFinal=JSON.stringify(ItemJSON);
+jQuery.ajax({
+            url: "http://localhost:7008/compareHotfixStrings",
+            type: "POST",
+            data: ItemJSONFinal,
+          
+
+            contentType: 'application/json; charset=utf-8',
+            success: function(resultData) {
+            resultData=resultData.replace(/\n/g,"<br><br>");
             
-            var path2 = document.getElementById('path2').value;
-            if (path2=="") {
-            	errorString2 = "File for Inventory is not selected";
-            }
-            if(path2.indexOf("fakepath") != -1){
-            	errorString2 = "FakePath Browser issue encountered, we shall fix this is in version-2.0, as a work-around please use the text-field below to provide the absolute-file-path";	
-            	path2 = document.getElementById('pathText2').value;
-            }
-            if(path2==""){
-            	path2 = document.getElementById('pathText2').value;
-            }
-            if(path2!="" && path2.indexOf("fakepath") == -1 ){
-            		errorString2="";
-            }
-            var prpcVersion = document.getElementById('version').value;
+            document.getElementById("commonHotfix").innerHTML = resultData;// Current config with return type string
+            },
+            error : function(jqXHR, textStatus, errorThrown) {
+              document.getElementById("commonHotfix").innerHTML =errorThrown;         
+                 },
 
-            if (errorString1 != "") {
-                errorCSV(errorString1);
-            }else if(errorString2 != ""){
-            	errorCSV(errorString2);
-       		}else if (prpcVersion == "") {
-                errorPrpc();
-            } else {
-                var ItemJSON;
-                ItemJSON = {
-                    "path1": path1,
-                    "path2": path2,
-                    "version": prpcVersion
-                };
-                var ItemJSONFinal = JSON.stringify(ItemJSON);
-                jQuery.ajax({
-                    url: "http://localhost:7008/compareHotfixes",
-                    type: "POST",
-                    data: ItemJSONFinal,
+            timeout: 120000,
+        });
+    }
+}
+}
+}
 
-                    contentType: 'application/json; charset=utf-8',
-                    success: function(resultData) {
-                        resultData = resultData.replace(/\n/g, "<br><br>");
-                        //resultData=JSON.parse(result);
-                        // resultData=resultData.replace(/\"/g," ");
-                        // document.getElementById("demo").innerHTML = JSON.stringify(resultData) ;
-                        document.getElementById("commonHotfix").innerHTML = resultData; // Current config with return type string
-                        //testing 
-
-                        //document.getElementById("commonHotfix").innerHTML="<p style='color:rgba(49, 175, 212, 1); font-weight:600;font-size:x-large'>The common Hotfixes:</p><br><p style='font-size:large;font-color:white'>"+  resultData.a;
-                        //document.getElementById("in1ButNot2").innerHTML="<p style='color:rgba(49, 175, 212, 1); font-weight:600;font-size:x-large'>Hotfixs in Inventory1 but not in Inventory2 :</p><br><p style='font-size:large;font-color:white'>"+  resultData.b;
-                        //document.getElementById("in2ButNot1").innerHTML="<p style='color:rgba(49, 175, 212, 1); font-weight:600;font-size:x-large'>Hotfixs in Inventory2 but not in Inventory1:</p><br><p style='font-size:large;font-color:white'>"+  resultData.c;
-                        //document.getElementById("commonButDifferentStatus").innerHTML="<p style='color:rgba(49, 175, 212, 1); font-weight:600;font-size:x-large'>Common Hotfixes but with different status:</p><br><p style='font-size:large;font-color:white'>"+  resultData.d;
-                        // alert(resultData.a);
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        document.getElementById("commonHotfix").innerHTML = errorThrown;
-                    },
-
-                    timeout: 120000,
-                });
-            }
-        }
-    </script>
+</script>
 </head>
-
 <body style="background: rgb(66, 115, 131);">
-    <div class="jumbotron text-center">
-        <h1>Hotfix Comparator</h1>
-        <h8> © APAC-Gladiators / damas / kakul </h8><br><br>
-<br>        <p>Upload the Hotfix inventory CSV files</p>
+
+<div class="jumbotron text-center">
+  <h1>Hotfix Comparator</h1>
+  <p>Upload the Hotfix inventory CSV files</p> 
+</div>
+  
+<div class="container"">
+  <div class="row">
+    <div class="col-sm-4">
+        <form>
+      <div class="center-block" style="margin-left:15%"> 
+       <h3 style="color:white" >Inventory 1 <span style="color:red;font-weight:bold">*</span></h3>
+        <input type="file"  id="path1" accept=".csv" required><br>    
+      </div>
+    </form>
     </div>
-    <div class="container">
-         <div class="row">
-            <div class="col-sm-4">
-                  <div class="center-block" style="position:absolute; left:-100px; top:30px;">
-                     <h3 style="color:white" >Inventory 1*</h3>
-                     <input type="file"  id="path1" accept=".csv" required><br>
-                   <!--  <p style="color:White; font-style: bold"> If browser doesn't support file uploads due to security reasons ("Fakepath-Masking "), please provide the absolute file path in the corresponding text fields below.</p> -->
-                     <input type="text" placeholder="Enter the Absolute-File-Path if needed for Inventory-1"  size=50 id="pathText1"><br>
-                  </div>
-            </div>
-            <div class="col-sm-4" >
-               <div class="center-block" style="position:absolute; left:100px; top:30px;">
-                  <h3 style="color:white">Inventory 2*</h3>
-                  <form>
-                     <input type="file"  id="path2" accept=".csv" required><br>
-                     <!--  <p style="color:White; font-style: bold"> If browser doesn't support file uploads due to security reasons ("Fakepath-Masking "), please provide the absolute file path in the corresponding text fields below. </p>-->
-                     <input type="text" size=50 placeholder="Enter the Absolute-File-Path if needed for Inventory-2" id="pathText2"><br>
-                  </form>
-               </div>
-            </div>
-            <div class="col-sm-4" >
-               <div class="center-block" style="position:absolute; left:180px; top:70px;">
-                  <h3 style="color:white">PRPC Version*</h3>
-                  <form>
-                     <input list="versions" id="version" required>
-                     <datalist id="versions">
-                        <option value="7.3.1">
-                        <option value="7.3">
-                        <option value="7.2.2">
-                        <option value="7.2.1">
-                        <option value="7.2">
-                        <option value="7.1.9">
-                     </datalist>
-                  </form>
-               </div>
-            </div>
-         </div>
+    <div class="col-sm-4" >
+      <div class="center-block" style="margin-left:37%">
+        <h3 style="color:white">Inventory 2 <span style="color:red"> *</span> </h3>
+        <form >
+          <input type="file" id="path2" accept=".csv" required><br>
+          </form>
       </div>
-      <div style="height:50px">
-      <button type="Submit" class="btn btn-success"  onclick="myFunction()" style="position:absolute; left:750px; top:550px;" >Compare</button>
-      </div>
-      <div>
-      <div id="commonHotfix" style="position:absolute; left:450px; top:600px; color: aliceblue;font-style: white;font-weight : bold">
-      </div>
-      <div id="in1ButNot2" style="white-space: pre-line; text-align:left;margin-top:50px;color: aliceblue;font-style: white">
-      </div>
-      <div id="in2ButNot1" style="white-space: pre-line; text-align:left;margin-top:50px;color: aliceblue;font-style: white">
-      </div>
-      <div id="commonButDifferentStatus" style="white-space: pre-line; text-align:left;margin-top:50px;color: aliceblue;font-style: white">
-      </div>
-   </body>
+   </div>
+   <div class="col-sm-4" >
+    <div class="center-block" style="margin-left:50%">
+      <h3 style="color:white">PRPC Version <span style="color:red"> *</span></h3>
+      <form>
+        <input list="versions" id="version" required>
+        <datalist id="versions">
+          <option value="7.3.1">
+          <option value="7.3">
+          <option value="7.2.2">
+          <option value="7.2.1">
+          <option value="7.2">
+          <option value="7.1.9">
+		</datalist>
+      </form>
+    </div>
+</div>
+  </div>
+</div>
+
+<div style="height:50px">
+  
+    <button type="Submit" class="btn btn-success"  onclick="myFunction()" style="margin-left:auto;margin-right:auto;display:block;margin-top:50px;" >Compare</button>
+  
+</div>
+<div>
+
+
+<div id="commonHotfix" style="white-space: pre-line; text-align:center;margin-top:50px;color: aliceblue;font-style: white">
+  </div>
+</body>
 </html>

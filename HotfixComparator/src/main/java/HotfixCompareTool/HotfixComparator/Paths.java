@@ -5,12 +5,11 @@
  */
 package HotfixCompareTool.HotfixComparator;
 
-import java.io.Serializable;
 
-	public class Paths implements Serializable{
-		String path1;
-		String path2;
-		String version;
+	public class Paths{
+		private String path1;
+		private String path2;
+		private String version;
 		public String getPath1(){
 			return path1;
 		}

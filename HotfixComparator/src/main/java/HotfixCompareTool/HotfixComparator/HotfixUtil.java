@@ -12,6 +12,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.TreeSet;
@@ -19,15 +21,34 @@ import java.util.TreeSet;
 public class HotfixUtil {
 	
 	public static ArrayList createNecessaryHotfixObjects(File aEnv1, File aEnv2,ArrayList listofHotfixSet,String prpcVersion) throws IOException {
-		
 		fileReaderAndHfixObjectCreator(aEnv1,listofHotfixSet,prpcVersion);
 		fileReaderAndHfixObjectCreator(aEnv2,listofHotfixSet,prpcVersion);
+		return listofHotfixSet;
+	}
+	
+	public static ArrayList createNecessaryHotfixObjects(String str1, String str2,ArrayList listofHotfixSet,String prpcVersion) throws IOException {
+		stringReaderAndHfixObjectCreator(str1,listofHotfixSet,prpcVersion);
+		stringReaderAndHfixObjectCreator(str2,listofHotfixSet,prpcVersion);
+		return listofHotfixSet;
+	}
+	
+	private static ArrayList stringReaderAndHfixObjectCreator(String str,ArrayList listofHotfixSet,String prpcVersion) throws IOException{
+		Reader inputString = new StringReader(str);
+		BufferedReader br = new BufferedReader(inputString);
+		listofHotfixSet = hfixObjectCreator(br,listofHotfixSet,prpcVersion);
+		inputString.close();
 		return listofHotfixSet;
 	}
 
 	private static ArrayList fileReaderAndHfixObjectCreator(File env,ArrayList listofHotfixSet,String prpcVersion) throws IOException{
 		FileReader fr = new FileReader(env);
 		BufferedReader br = new BufferedReader(fr);
+		listofHotfixSet = hfixObjectCreator(br,listofHotfixSet,prpcVersion);
+		fr.close();
+		return listofHotfixSet;
+	}
+	
+	private static ArrayList hfixObjectCreator(BufferedReader br,ArrayList listofHotfixSet,String prpcVersion) throws IOException{
 		TreeSet<Hotfix> hotfixSet = new TreeSet<Hotfix>(new HotfixComparator());
 		String temp[] = getFromPropertiesFile(prpcVersion); // get the column level details from the properties file.
 		String line = br.readLine();
@@ -48,9 +69,8 @@ public class HotfixUtil {
 			hotfixSet.add(newHotfixObj);
 			line=br.readLine();
 		}
-		listofHotfixSet.add(hotfixSet);
 		br.close();
-		fr.close();
+		listofHotfixSet.add(hotfixSet);
 		return listofHotfixSet;
 	}
 	

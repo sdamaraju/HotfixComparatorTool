@@ -11,6 +11,9 @@ No more manual efforts are required for comparing the hotfix scan sheets, just u
 4.Upload the csv files on to the browser.
 5.Click the Compare Button.
 
+### Browser Compatibility : 
+This tool will now work on all browsers. ([IE 10 and above], [Chrome 7 and above],  [Mozilla 3.6(1.9.2) and above] and [Safari 6 and above]).
+
 ### Prerequisites
 
 Oracle JDK 1.8
@@ -27,12 +30,10 @@ Oracle JDK 1.8
 We use [Github](https://github.com/) for versioning. For the versions available : Just the First version for now.
 
 ##Known issues :
-1. There is a fakepath issue that is being encountered while uploading the files using browsers like Chrome, Latest Firefox and Edge (Security issues).
-   This works fine in IE 11.
-   Planning to fix this in the next version of the project.
-2. The port on which this application is going to run is as of now not configurable, it runs on 7008.
+
+1. The port on which this application is going to run is as of now not configurable, it runs on 7008.
    This is also going to be addressed in 2.0 version as a dynamically configurable one.
-3. The Application right now doesn't support PRPC version 7.1.8 and below, 7.4 and higher. 
+2. The Application right now doesn't support PRPC version 7.1.8 and below, 7.4 and higher. 
 
 ##Planned Enhancements:
 1. Export the results to a PDF/Word document.
