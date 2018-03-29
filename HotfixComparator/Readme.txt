@@ -5,9 +5,9 @@ No more manual efforts are required for comparing the hotfix scan sheets, just u
 
 ## Deployment and usage instructions
 
-1.Download the jar file and .bat file and place them under the same folder structure.
-2.Run the .bat file.
-3.On the Browser, just hit the : http://localhost:7008
+1.Download the jar file and .bat file, extract and place them under the same folder structure.
+2.Run the compareHotfixes.bat file.
+3.Default Browser opens in 5 seconds, or hit the : http://localhost:7008
 4.Upload the csv files on to the browser.
 5.Click the Compare Button.
 
@@ -19,7 +19,7 @@ This tool will now work on all browsers. ([IE 10 and above], [Chrome 7 and above
 * [Spring Boot](https://projects.spring.io/spring-boot/) - The development framework used
 * [Maven](https://maven.apache.org/) - Dependency Management and Packaging Mechanism
 * [HTML+AJAX+JQuery] - Web-Development frameworks.
-* Oracle JDK 1.8
+* [Oracle JDK 1.8]
 
 ## Versioning
 
