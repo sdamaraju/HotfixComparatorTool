@@ -52,11 +52,10 @@ else{
   var reader1 = new FileReader();
   reader1.readAsText(inventoryFile1.files[0]);
   var reader2 = new FileReader();  
-  reader2.readAsText(inventoryFile2.files[0]);
-
-  reader1.onload=function(e){
-	  
-	reader2.onload=function(e){  
+   
+   reader1.onloadend=function(e){
+	   reader2.readAsText(inventoryFile2.files[0]);
+	reader2.onloadend=function(e){
 	var ItemJSON;
 	ItemJSON = 
 	{ 

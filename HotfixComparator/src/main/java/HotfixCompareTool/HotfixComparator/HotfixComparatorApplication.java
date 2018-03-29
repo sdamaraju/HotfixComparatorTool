@@ -87,8 +87,6 @@ public class HotfixComparatorApplication {
 			listOfHotfixSet = HotfixUtil.createNecessaryHotfixObjects(str1,str2,listOfHotfixSet,prpcVersion);
 			ResultGenerator rgen = new ResultGenerator();
 		str = rgen.compareHotfixesAndGenerateResults(listOfHotfixSet);
-		}catch(IOException ex){
-			return ex.getMessage();
 		}catch(Exception e){
 			str = "Error occurred : Please copy the Console Logs and post them to the Pega-GCS team along with the \"2\" inventory files that were used to compare.";
 			e.printStackTrace();

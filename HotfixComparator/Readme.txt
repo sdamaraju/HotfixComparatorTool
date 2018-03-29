@@ -14,16 +14,12 @@ No more manual efforts are required for comparing the hotfix scan sheets, just u
 ### Browser Compatibility : 
 This tool will now work on all browsers. ([IE 10 and above], [Chrome 7 and above],  [Mozilla 3.6(1.9.2) and above] and [Safari 6 and above]).
 
-### Prerequisites
-
-Oracle JDK 1.8
-
-
 ## Built With
 
 * [Spring Boot](https://projects.spring.io/spring-boot/) - The development framework used
 * [Maven](https://maven.apache.org/) - Dependency Management and Packaging Mechanism
 * [HTML+AJAX+JQuery] - Web-Development frameworks.
+* Oracle JDK 1.8
 
 ## Versioning
 

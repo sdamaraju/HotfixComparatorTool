@@ -113,7 +113,7 @@ public class ResultGenerator {
 			}
 			//System.out.println(i+1 + ") " +HotfixInEnv2NotEnv1.get(i));
 		}
-		System.out.println(finalbuf.toString());
+		//System.out.println(finalbuf.toString());
 		return finalbuf.toString();
 	}	
 }
